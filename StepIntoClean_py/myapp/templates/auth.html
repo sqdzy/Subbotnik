@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="../static/css/auth.css">
+  <title>Субботник</title>
+</head>
+<body>
+   <header class="flex_inline">
+        <p class="header_logo">Субботник</p>
+        <nav class="header_menu_wrapper">
+          <ul class="header_menu">
+            <li class="menu_about menu_element"><a href="/">О нас</a></li>
+            <li class="menu_works menu_element"><a href="/map">Карта</a></li>
+            <li class="menu_works menu_element"><a href="/auth">Войти</a></li>
+            <li class="menu_works menu_element"><a href="{% url 'logout' %}">Выйти</a></li>
+          </ul>
+        </nav>
+    </header>
+    <main>
+      <section>
+        <form class="form-container" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="messages">{{error}}</p>
+          <label for="userName" class="form-label"><b>Имя пользователя</b></label>
+          <input type="text" placeholder="Введите имя пользователя" name="userName" required class="form-input">
+  
+          <label for="userPassword" class="form-label"><b>Пароль</b></label>
+          <input type="password" placeholder="Введите пароль" name="userPassword" required class="form-input">
+  
+          <button type="submit" class="form-submit">Войти</button>
+      </section>
+    </main>
+    <footer>
+      <div class="flex_footer">
+        <p class="footer_logo">Субботник</p>
+        <hr class="vert_line">
+        <div class="footer_wrapper">
+          <div class="footer_menu">
+            <a href="/" class="footer_about">О нас</a>
+            <a href="/map" class="footer_about">Карта</a>
+          </div>
+          <div class="footer_contacts" name = "menu">
+            <a href="https://t.me/subbotnik_map" target="_blank"><img src={% static 'imgs/telegram-svgrepo-com (1).svg' %} alt=""></a>
+            <a href="https://vk.com/subbotnik_map" target="_blank"><img src={% static 'imgs/vk-svgrepo-com.svg' %} alt=""></a>
+            <p class="footer_email">Email: help@subbotnik.ru</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</body>
+</html>

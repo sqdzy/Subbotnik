@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавление метки на карту</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=66056df9-c1bd-42e0-adaa-4e2ab8b24d7f" type="text/javascript"></script>
+    <script src="{% static 'scripts/placemark.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/map.css">
+</head>
+<body>
+  <header class="flex_inline">
+    <p class="header_logo">Субботник</p>
+    <nav class="header_menu_wrapper">
+      <ul class="header_menu">
+            <li class="menu_about menu_element"><a href="/">О нас</a></li>
+            <li class="menu_works menu_element"><a href="/map">Карта</a></li>
+            <li class="menu_works menu_element"><a href="/auth">Войти</a></li>
+            <li class="menu_works menu_element"><a href="{% url 'logout' %}">Выйти</a></li>
+      </ul>
+    </nav>
+  </header>
+      <div class="wrapper_map">
+        <form id="markerForm" class="form-container" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <label for="markerName" class="form-label">Название метки:</label>
+          <input type="text" id="markerName" name="markerName" class="form-input" required><br>
+          <label for="description" class="form-label">Описание:</label>
+          <textarea id="description" name="description" class="form-textarea" required></textarea><br>
+          <label for="pollutionLevel" class="form-label">Степень загрязнения:</label><br>
+          <select id="pollutionLevel" name="pollutionLevel" class="form-select" required>
+              <option value="">Выберите...</option>
+              <option value="smallTrash">Мелкий мусор</option>
+              <option value="largeTrash">Крупный мусор</option>
+              <option value="dump">Свалка</option>
+          </select><br>
+          <label for="photo" class="form-label">Фотография:</label>
+          <input type="file" id="photo" name="photo" class="form-input" accept="image/*" required><br>
+            <textarea id="latitude" name="latitude" class="form-textarea" required></textarea><br>
+            <textarea id="longitude" name="longitude" class="form-textarea" required></textarea><br>
+          <input type="submit" value="Отправить" class="form-submit" id = "submit-button" onclick="return checkUser()">
+          <input type="reset" value="Сбросить" class="form-reset">
+      </form>
+        <div id="map"></div>
+      </div>
+    <footer>
+      <div class="flex_footer">
+        <p class="footer_logo">Субботник</p>
+        <hr class="vert_line">
+        <div class="footer_wrapper">
+          <div class="footer_menu">
+            <a href="/" class="footer_about">О нас</a>
+            <a href="/map" class="footer_about">Карта</a>
+          </div>
+          <div class="footer_contacts" name = "menu">
+            <a href="https://t.me/subbotnik_map" target="_blank"><img src={% static 'imgs/telegram-svgrepo-com (1).svg' %} alt=""></a>
+            <a href="https://vk.com/subbotnik_map" target="_blank"><img src={% static 'imgs/vk-svgrepo-com.svg' %} alt=""></a>
+            <p class="footer_email">Email: help@subbotnik.ru</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+<script>
+function checkUser() {
+    var userName = "{{ request.session.user }}";  // Получите имя пользователя из сессии Django
+    if (!userName) {
+        alert("Пожалуйста, войдите в систему, чтобы поставить метку.");
+        return false;
+    }
+    return true;
+}
+</script>
+</body>
+</html>
